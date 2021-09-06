@@ -10,11 +10,23 @@
 #docker run -d --name es-object-storage -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch
 #curl ppi.io:9200/metadata -H "Content-Type: application/json" -XPUT -d'{"mappings":{"properties":{"name":{"type":"text"},"version":{"type":"integer"},"size":{"type":"integer"},"hash":{"type":"text"}}}}'
 
-rm -r /tmp/object-storage/
+BASE_DIR=/tmp/object-storage
+LOG_DIR=/tmp/object-storage/logs
+
+if [ ! -d "$BASE_DIR" ]; then
+    echo "x"
+else
+    rm -r $BASE_DIR
+fi
+
+if [ ! -d "$LOG_DIR" ]; then
+    mkdir -p $LOG_DIR
+fi
+
 
 for i in $(seq 1 6)
 do
-  mkdir -p /tmp/object-storage/$i/objects
-  mkdir -p /tmp/object-storage/$i/temp
-  mkdir -p /tmp/object-storage/$i/garbage
+  mkdir -p $BASE_DIR/$i/objects
+  mkdir -p $BASE_DIR/$i/temp
+  mkdir -p $BASE_DIR/$i/garbage
 done
