@@ -47,7 +47,7 @@ func InitCli() {
 		}
 	}
 
-	middleware.Register(func(doc interface{}, opType operator.OpType, opts ...interface{}) error {
+	middleware.Register(func(ctx context.Context, doc interface{}, opType operator.OpType, opts ...interface{}) error {
 		log.Info(fmt.Sprintf("doc: %v\n opType: %v\n opts: %v", doc, opType, opts))
 		return nil
 	})
