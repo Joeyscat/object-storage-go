@@ -48,13 +48,23 @@ func OPut(cmd *cobra.Command, params []string) {
 	hash := hashReader(fp)
 	fp.Seek(0, 0)
 
-	resp, err := put("http://localhost:9001/objects/"+objName, "", hash, fp)
+	fi, err := fp.Stat()
+	if err != nil {
+		log.Fatalf("Stat file `%s`: %v\n", fileToUpload, err)
+		return
+	}
+
+	resp, err := put("http://localhost:9001/objects/"+objName, hash, fi.Size(), fp)
 	if err != nil {
 		log.Fatalf("Put file `%s`: %v\n", fileToUpload, err)
 		return
 	}
 
 	r, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatalf("Read response `%s`: %v\n", fileToUpload, err)
+		return
+	}
 	log.Printf("Code: %d\n%s\n", resp.StatusCode, string(r))
 }
 
@@ -64,12 +74,13 @@ func hashReader(r io.Reader) string {
 	return base64.StdEncoding.EncodeToString(h.Sum(nil))
 }
 
-func put(url, contentType, hash string, body io.Reader) (resp *http.Response, err error) {
+func put(url, hash string, contentLength int64, body io.Reader) (resp *http.Response, err error) {
 	req, err := http.NewRequest("PUT", url, body)
 	if err != nil {
 		return nil, err
 	}
-	req.Header.Set("Content-Type", contentType)
+	req.ContentLength = contentLength
+	// req.Header.Set("Content-Length", contentLength)
 	req.Header.Set("Digest", "SHA-256="+hash)
 	c := http.DefaultClient
 	return c.Do(req)

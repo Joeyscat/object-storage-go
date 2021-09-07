@@ -9,6 +9,8 @@ build-api-server:
 build-storage-server:
 	go build -o build/storage-server cmd/storage_server/storage_server.go
 
+build-oshell:
+	go build -o build/oshell cmd/oshell/main.go
 check:
 	golangci-lint run
 

@@ -15,7 +15,11 @@ func NewPutStream(server, object string) *PutStream {
 	reader, writer := io.Pipe()
 	c := make(chan error)
 	go func() {
-		request, _ := http.NewRequest("PUT", "http://"+server+"/objects/"+object, reader)
+		request, err := http.NewRequest("PUT", "http://"+server+"/objects/"+object, reader)
+		if err != nil {
+			c <- err
+			return
+		}
 		client := http.Client{}
 		rsp, err := client.Do(request)
 		if err == nil && rsp.StatusCode != http.StatusOK {
