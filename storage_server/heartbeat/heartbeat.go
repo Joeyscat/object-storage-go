@@ -1,18 +1,24 @@
 package heartbeat
 
 import (
-    "os"
-    "time"
+	"os"
+	"time"
 
-    "github.com/joeyscat/object-storage-go/pkg/rabbitmq"
+	"github.com/joeyscat/object-storage-go/pkg/log"
+	"github.com/joeyscat/object-storage-go/pkg/natsmq"
+	"github.com/nats-io/nats.go"
+	"go.uber.org/zap"
 )
 
-// StartHeartbeat 每5秒向指定exchange发送一条消息, 用于暴露本服务节点的监听地址
 func StartHeartbeat() {
-    q := rabbitmq.New(os.Getenv("RABBITMQ_SERVER"))
-    defer q.Close()
-    for {
-        q.Publish("api-server", os.Getenv("LISTEN_ADDRESS"))
-        time.Sleep(5 * time.Second)
-    }
+	nc, err := natsmq.GetSingletonNats(os.Getenv("NATS_URL"), nats.Name("storage_heartbeat_pub"))
+	if err != nil {
+		log.Error("GetSingletonNats", zap.Any("error", err))
+		return
+	}
+
+	for {
+		nc.Publish(os.Getenv("NATS_SUBJECT_STORAG_HEARTBEAT"), []byte(os.Getenv("LISTEN_ADDRESS")))
+		time.Sleep(5 * time.Second)
+	}
 }

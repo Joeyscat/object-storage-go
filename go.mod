@@ -8,10 +8,9 @@ require (
 	github.com/nats-io/nats.go v1.12.1
 	github.com/qiniu/qmgo v1.0.3
 	github.com/spf13/cobra v1.2.1
-	github.com/streadway/amqp v1.0.0
 	github.com/stretchr/testify v1.7.0
 	go.mongodb.org/mongo-driver v1.7.2
-	go.uber.org/zap v1.19.0
+	go.uber.org/zap v1.19.1
 )
 
 require (
@@ -39,7 +38,7 @@ require (
 	go.uber.org/multierr v1.7.0 // indirect
 	golang.org/x/crypto v0.0.0-20210817164053-32db794688a5 // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
-	golang.org/x/sys v0.0.0-20210906170528-6f6e22806c34 // indirect
+	golang.org/x/sys v0.0.0-20210908233432-aa78b53d3365 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	google.golang.org/protobuf v1.27.1 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect

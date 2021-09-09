@@ -2,32 +2,33 @@ package heartbeat
 
 import (
 	"os"
-	"strconv"
 	"sync"
 	"time"
 
-	"github.com/joeyscat/object-storage-go/pkg/rabbitmq"
+	"github.com/joeyscat/object-storage-go/pkg/log"
+	"github.com/joeyscat/object-storage-go/pkg/natsmq"
+	"github.com/nats-io/nats.go"
+	"go.uber.org/zap"
 )
 
 var dataServers = make(map[string]time.Time)
 var mutex sync.Mutex
 
 func ListenHeartbeat() {
-	q := rabbitmq.New(os.Getenv("RABBITMQ_SERVER"))
-	defer q.Close()
-	q.Bind("api-server")
-	c := q.Consume()
+	nc, err := natsmq.GetSingletonNats(os.Getenv("NATS_URL"), nats.Name("storage_heartbeat_sub"))
+	if err != nil {
+		log.Error("GetSingletonNats", zap.Any("error", err))
+		return
+	}
+
 	go removeExpiredDataServer()
 
-	for msg := range c {
-		dataServer, err := strconv.Unquote(string(msg.Body))
-		if err != nil {
-			panic(err)
-		}
+	nc.Subscribe(os.Getenv("NATS_SUBJECT_STORAG_HEARTBEAT"), func(msg *nats.Msg) {
+		ss := string(msg.Data)
 		mutex.Lock()
-		dataServers[dataServer] = time.Now()
+		dataServers[ss] = time.Now()
 		mutex.Unlock()
-	}
+	})
 }
 
 func removeExpiredDataServer() {

@@ -1,6 +1,7 @@
 package locate
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -9,8 +10,9 @@ import (
 	"sync"
 
 	"github.com/joeyscat/object-storage-go/pkg/log"
-
-	"github.com/joeyscat/object-storage-go/pkg/rabbitmq"
+	"github.com/joeyscat/object-storage-go/pkg/natsmq"
+	"github.com/nats-io/nats.go"
+	"go.uber.org/zap"
 )
 
 type Message struct {
@@ -46,24 +48,23 @@ func Del(hash string) {
 }
 
 func StartLocate() {
-	q := rabbitmq.New(os.Getenv("RABBITMQ_SERVER"))
-	defer q.Close()
-	q.Bind("data-server")
-	c := q.Consume()
+	nc, err := natsmq.GetSingletonNats(os.Getenv("NATS_URL"), nats.Name("object_locate_sub"))
+	if err != nil {
+		log.Error("GetSingletonNats", zap.Any("error", err))
+		return
+	}
 
-	for msg := range c {
-		hash, err := strconv.Unquote(string(msg.Body))
-		if err != nil {
-			panic(err)
-		}
+	natsmq.SubscribeWithReply(nc, os.Getenv("NATS_SUBJECT_OBJ_LOCATE"), func(msg *nats.Msg) ([]byte, error) {
+		hash := string(msg.Data)
 		id := Locate(hash)
 		if id != -1 {
-			q.Send(msg.ReplyTo, Message{
+			return json.Marshal(Message{
 				Addr: os.Getenv("LISTEN_ADDRESS"),
 				Id:   id,
 			})
 		}
-	}
+		return nil, fmt.Errorf("hash[%s] not found", hash)
+	})
 }
 
 func CollectObjects() {

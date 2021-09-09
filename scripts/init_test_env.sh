@@ -1,14 +1,9 @@
-#wget ppi.io:15672/cli/rabbitmqadmin
-#chmod +x rabbitmqadmin
-#mv rabbitmqadmin /usr/bin/
-#
-#rabbitmqadmin --host=ppi.io declare exchange name=api-server type=fanout
-#rabbitmqadmin --host=ppi.io declare exchange name=data-server type=fanout
-#rabbitmqadmin --host=ppi.io list exchanges
-#
-## docker pull elasticsearch:7.10.1
-#docker run -d --name es-object-storage -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch
-#curl ppi.io:9200/metadata -H "Content-Type: application/json" -XPUT -d'{"mappings":{"properties":{"name":{"type":"text"},"version":{"type":"integer"},"size":{"type":"integer"},"hash":{"type":"text"}}}}'
+## nats
+# docker run -d -p 4222:4222 nats
+
+## mongodb
+
+## data and log dirs
 
 BASE_DIR=/tmp/object-storage
 LOG_DIR=/tmp/object-storage/logs

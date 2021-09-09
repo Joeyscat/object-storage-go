@@ -1,7 +1,8 @@
 # start up processes for test
 
-export RABBITMQ_SERVER=amqp://jojo:jojo@192.168.142.136:5672
-export ES_SERVER=localhost:9200
+export NATS_URL=nats://me.io:4222
+export NATS_SUBJECT_STORAG_HEARTBEAT=storage_heartbeat
+export NATS_SUBJECT_OBJ_LOCATE=object_locate
 
 BASE_DIR=/tmp/object-storage
 LOG_DIR=/tmp/object-storage/logs
