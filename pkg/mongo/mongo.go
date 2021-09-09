@@ -3,6 +3,7 @@ package mongo
 import (
 	"context"
 	"fmt"
+	"os"
 
 	"github.com/joeyscat/object-storage-go/pkg/log"
 	"github.com/qiniu/qmgo"
@@ -22,8 +23,7 @@ func init() {
 func InitCli() {
 	ctx := context.Background()
 	var err error
-	cli, err = qmgo.Open(ctx, &qmgo.Config{Uri: "mongodb://test-backup_rw:Hm9JNLMfDJLWB0gUqjm7kXBn5Ir3E41_NU8B7YFAPIJoJfysiMxLYk9x8qqUgwE0@10.176.247.202:20001,10.176.247.203:20001,10.176.58.144:20001/test-backup", Database: "test-backup", Coll: "t_object_storage_metadata"})
-	// cli, err = qmgo.Open(ctx, &qmgo.Config{Uri: "mongodb://object_storage_rw:123456@localhost:27017/db_object_storage", Database: "db_object_storage", Coll: "t_metadata"})
+	cli, err = qmgo.Open(ctx, &qmgo.Config{Uri: os.Getenv("MONGODB_URI"), Database: "object_storage", Coll: "object_metadata"})
 	if err != nil {
 		panic(err)
 	}

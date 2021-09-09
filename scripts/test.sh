@@ -1,5 +1,6 @@
 # start up processes for test
 
+export MONGODB_URI=mongodb://object_storage_rw:123456@192.168.50.186:27017/object_storage
 export NATS_URL=nats://me.io:4222
 export NATS_SUBJECT_STORAG_HEARTBEAT=storage_heartbeat
 export NATS_SUBJECT_OBJ_LOCATE=object_locate
