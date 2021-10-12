@@ -18,6 +18,7 @@ type Message struct {
 }
 
 func Locate(name string) map[int]string {
+	log.Debug("Locate", zap.String("name", name))
 	nc, err := natsmq.GetSingletonNats(os.Getenv("NATS_URL"), nats.Name("object_locate_pub"))
 	if err != nil {
 		log.Error("GetSingletonNats", zap.Any("error", err))

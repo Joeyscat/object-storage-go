@@ -5,8 +5,8 @@
 
 ## data and log dirs
 
-BASE_DIR=/tmp/object-storage
-LOG_DIR=/tmp/object-storage/logs
+BASE_DIR=~/env/objects
+LOG_DIR=~/code/go/object-storage-go/logs
 
 if [ ! -d "$BASE_DIR" ]; then
     echo "x"

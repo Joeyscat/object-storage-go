@@ -11,6 +11,7 @@ import (
 	"github.com/qiniu/qmgo/operator"
 	"github.com/qiniu/qmgo/options"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -118,11 +119,11 @@ func SearchLatestVersion(name string) (meta *Metadata, err error) {
 	l := new(LatestVersion)
 
 	err = cli.Aggregate(context.Background(), mongo.Pipeline{
-		bson.D{{"$match", bson.M{"name": name}}},
-		bson.D{{"$project", bson.M{"versions": 1, "name": 1}}},
-		bson.D{{"$unwind", "$versions"}},
-		bson.D{{"$sort", bson.M{"versions.v": -1}}},
-		bson.D{{"$limit", 1}},
+		bson.D{primitive.E{Key: "$match", Value: bson.M{"name": name}}},
+		bson.D{primitive.E{Key: "$project", Value: bson.M{"versions": 1, "name": 1}}},
+		bson.D{primitive.E{Key: "$unwind", Value: "$versions"}},
+		bson.D{primitive.E{Key: "$sort", Value: bson.M{"versions.v": -1}}},
+		bson.D{primitive.E{Key: "$limit", Value: 1}},
 	}).One(l)
 
 	if err != nil && err == mongo.ErrNoDocuments {

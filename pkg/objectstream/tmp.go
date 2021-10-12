@@ -25,6 +25,9 @@ func NewTempPutStream(server, object string, size uint64) (*TempPutStream, error
 	if err != nil {
 		return nil, err
 	}
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("post object to data server not OK")
+	}
 	uuid, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err

@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/joeyscat/object-storage-go/pkg/log"
 	"github.com/joeyscat/object-storage-go/pkg/objectstream"
+	"go.uber.org/zap"
 )
 
 type RSPutStream struct {
@@ -23,6 +25,7 @@ func NewRSPutStream(dataServers []string, hash string, size int64) (*RSPutStream
 		writers[i], err = objectstream.NewTempPutStream(dataServers[i],
 			fmt.Sprintf("%s.%d", hash, i), uint64(perShard))
 		if err != nil {
+			log.Error("NewTempPutStream error", zap.String("err", err.Error()))
 			return nil, err
 		}
 	}

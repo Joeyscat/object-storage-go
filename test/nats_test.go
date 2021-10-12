@@ -76,7 +76,8 @@ func sub(addr string) {
 	_, err = nc.Subscribe(subject, func(msg *nats.Msg) {
 		key := string(msg.Data)
 		m := Message{addr, key}
-		bs, err := json.Marshal(m)
+		var bs []byte
+		bs, err = json.Marshal(m)
 		if err != nil {
 			panic(err)
 		}

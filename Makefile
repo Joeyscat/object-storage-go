@@ -11,7 +11,8 @@ build-storage-server:
 
 build-oshell:
 	go build -o build/oshell cmd/oshell/main.go
-check:
+
+lint:
 	golangci-lint run
 
 clean:

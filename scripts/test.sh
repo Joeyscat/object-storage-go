@@ -1,12 +1,13 @@
 # start up processes for test
 
-export MONGODB_URI=mongodb://object_storage_rw:123456@192.168.50.186:27017/object_storage
+# export MONGODB_URI=mongodb://object_storage_rw:123456@192.168.50.186:27017/object_storage
+export MONGODB_URI=mongodb://object_storage_rw:5QXj_hVQ7_5r5oOr1KVXjGam00qVgCZ35d5BmTxTYDpemN4d7o7SxCp1euiGtCR3@10.176.247.202:20001,10.176.247.203:20001,10.176.58.144:20001/object_storage
 export NATS_URL=nats://me.io:4222
 export NATS_SUBJECT_STORAG_HEARTBEAT=storage_heartbeat
 export NATS_SUBJECT_OBJ_LOCATE=object_locate
 
-BASE_DIR=/tmp/object-storage
-LOG_DIR=/tmp/object-storage/logs
+BASE_DIR=~/env/objects
+LOG_DIR=~/code/go/object-storage-go/logs
 
 LISTEN_ADDRESS=localhost:8001 STORAGE_ROOT=$BASE_DIR/1 go run cmd/storage_server/storage_server.go >> $LOG_DIR/data-server-1.log 2>&1 &
 LISTEN_ADDRESS=localhost:8002 STORAGE_ROOT=$BASE_DIR/2 go run cmd/storage_server/storage_server.go >> $LOG_DIR/data-server-2.log 2>&1 &

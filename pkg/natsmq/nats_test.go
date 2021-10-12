@@ -22,7 +22,8 @@ func TestSubscribeWithReply(t *testing.T) {
 	for i := 0; i < subNum; i++ {
 		go func(index int) {
 			SubscribeWithReply(subNc, subject, func(msg *nats.Msg) ([]byte, error) {
-				bs, err := json.Marshal(map[string]string{"addr": fmt.Sprintf("127.0.0.%d", index), "msg": string(msg.Data)})
+				var bs []byte
+				bs, err = json.Marshal(map[string]string{"addr": fmt.Sprintf("127.0.0.%d", index), "msg": string(msg.Data)})
 				return bs, err
 			})
 		}(i)

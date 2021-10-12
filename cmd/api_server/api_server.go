@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 
@@ -25,7 +26,7 @@ func main() {
 	http.HandleFunc("/versions/", versions.Handler)
 
 	addr := os.Getenv("LISTEN_ADDRESS")
-	log.Info(addr)
+	log.Info(fmt.Sprintf("Listening on %s\n", addr))
 	if err := http.ListenAndServe(addr, nil); err != nil {
 		log.Fatal(err.Error())
 	}

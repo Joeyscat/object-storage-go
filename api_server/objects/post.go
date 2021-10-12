@@ -29,7 +29,8 @@ func post(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if locate.Exist(url.PathEscape(hash)) {
-		v, err := mongo.SearchLatestVersion(name)
+		var v *mongo.Metadata
+		v, err = mongo.SearchLatestVersion(name)
 		if err != nil {
 			log.Warn(err.Error())
 			w.WriteHeader(http.StatusInternalServerError)
