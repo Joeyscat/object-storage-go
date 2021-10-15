@@ -11,7 +11,7 @@ import (
 )
 
 func TestSubscribeWithReply(t *testing.T) {
-	var url = "nats://me.io:4222"
+	var url = "nats://nats.me.io:4222"
 
 	var subject = "hello"
 

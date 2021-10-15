@@ -36,6 +36,16 @@ func GetHashFromHeader(h http.Header) string {
 	return digest[8:]
 }
 
+func GetHashFromHeaderValue(value string) string {
+	if len(value) < 9 {
+		return ""
+	}
+	if value[:8] != "SHA-256=" {
+		return ""
+	}
+	return value[8:]
+}
+
 func GetSizeFromHeader(h http.Header) (int64, error) {
 	return strconv.ParseInt(h.Get("content-length"), 0, 64)
 }

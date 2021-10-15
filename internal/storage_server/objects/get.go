@@ -14,7 +14,7 @@ import (
 
 	"github.com/joeyscat/object-storage-go/pkg/log"
 
-	"github.com/joeyscat/object-storage-go/storage_server/locate"
+	"github.com/joeyscat/object-storage-go/internal/storage_server/locate"
 )
 
 func get(w http.ResponseWriter, r *http.Request) {

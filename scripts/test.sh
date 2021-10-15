@@ -1,8 +1,8 @@
 # start up processes for test
 
 # export MONGODB_URI=mongodb://object_storage_rw:123456@192.168.50.186:27017/object_storage
-export MONGODB_URI=mongodb://object_storage_rw:5QXj_hVQ7_5r5oOr1KVXjGam00qVgCZ35d5BmTxTYDpemN4d7o7SxCp1euiGtCR3@10.176.247.202:20001,10.176.247.203:20001,10.176.58.144:20001/object_storage
-export NATS_URL=nats://me.io:4222
+export MONGODB_URI=mongodb://object_storage_rw:5QXj_hVQ7_5r5oOr1KVXjGam00qVgCZ35d5BmTxTYDpemN4d7o7SxCp1euiGtCR3@mongo1.me.io:20001,mongo2.me.io:20001,mongo3.me.io:20001/object_storage
+export NATS_URL=nats://nats.me.io:4222
 export NATS_SUBJECT_STORAG_HEARTBEAT=storage_heartbeat
 export NATS_SUBJECT_OBJ_LOCATE=object_locate
 

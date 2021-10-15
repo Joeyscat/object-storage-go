@@ -1,10 +1,12 @@
-package locate
+package object
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"time"
 
+	"github.com/joeyscat/object-storage-go/internal/api_server/heartbeat"
 	"github.com/joeyscat/object-storage-go/pkg/log"
 	"github.com/joeyscat/object-storage-go/pkg/natsmq"
 	"github.com/joeyscat/object-storage-go/pkg/rs"
@@ -12,9 +14,16 @@ import (
 	"go.uber.org/zap"
 )
 
-type Message struct {
-	Addr string
-	Id   int
+func GetStream(hash string, size uint64) (*rs.RSGetStream, error) {
+	locateInfo := Locate(hash)
+	if len(locateInfo) < rs.DataShards {
+		return nil, fmt.Errorf("object %s locate fail, result %v", hash, locateInfo)
+	}
+	dataServers := make([]string, 0)
+	if len(locateInfo) != rs.AllShards {
+		dataServers = heartbeat.ChooseRandomDataServer(rs.AllShards-len(locateInfo), locateInfo)
+	}
+	return rs.NewRSGetStream(locateInfo, dataServers, hash, size)
 }
 
 func Locate(name string) map[int]string {
@@ -46,4 +55,9 @@ func Locate(name string) map[int]string {
 
 func Exist(name string) bool {
 	return len(Locate(name)) >= rs.DataShards
+}
+
+type Message struct {
+	Addr string
+	Id   int
 }

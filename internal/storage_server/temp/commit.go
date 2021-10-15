@@ -11,7 +11,7 @@ import (
 	"github.com/joeyscat/object-storage-go/pkg/log"
 	"github.com/joeyscat/object-storage-go/pkg/utils"
 
-	"github.com/joeyscat/object-storage-go/storage_server/locate"
+	"github.com/joeyscat/object-storage-go/internal/storage_server/locate"
 )
 
 func (t *tempInfo) hash() string {

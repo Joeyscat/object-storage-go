@@ -12,6 +12,10 @@ build-storage-server:
 build-oshell:
 	go build -o build/oshell cmd/oshell/main.go
 
+mockgen:
+	mockgen --build_flags=--mod=mod -self_package=github.com/joeyscat/object-storage-go/internal/api_server/store -destination internal/api_server/store/mock_store.go -package store github.com/joeyscat/object-storage-go/internal/api_server/store Factory,BucketStore,ObjectStore
+	mockgen --build_flags=--mod=mod -self_package=github.com/joeyscat/object-storage-go/internal/api_server/service/v1 -destination internal/api_server/service/v1/mock_service.go -package v1 github.com/joeyscat/object-storage-go/internal/api_server/service/v1 Service,BucketSrv,ObjectSrv
+
 lint:
 	golangci-lint run
 
@@ -24,5 +28,5 @@ clean:
 init-test-env:
 	bash scripts/init_test_env.sh
 
-test-1: init-test-env
+debug: init-test-env
 	bash scripts/test.sh

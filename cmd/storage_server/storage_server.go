@@ -8,10 +8,10 @@ import (
 	"github.com/joeyscat/object-storage-go/pkg/log"
 	"github.com/joeyscat/object-storage-go/pkg/natsmq"
 
-	"github.com/joeyscat/object-storage-go/storage_server/heartbeat"
-	"github.com/joeyscat/object-storage-go/storage_server/locate"
-	"github.com/joeyscat/object-storage-go/storage_server/objects"
-	"github.com/joeyscat/object-storage-go/storage_server/temp"
+	"github.com/joeyscat/object-storage-go/internal/storage_server/heartbeat"
+	"github.com/joeyscat/object-storage-go/internal/storage_server/locate"
+	"github.com/joeyscat/object-storage-go/internal/storage_server/objects"
+	"github.com/joeyscat/object-storage-go/internal/storage_server/temp"
 )
 
 func main() {
