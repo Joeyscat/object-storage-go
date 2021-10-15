@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/joeyscat/object-storage-go/oshell"
+	"github.com/joeyscat/object-storage-go/internal/oshell"
 )
 
 func main() {

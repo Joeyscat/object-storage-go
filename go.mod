@@ -3,7 +3,6 @@ module github.com/joeyscat/object-storage-go
 go 1.17
 
 require (
-	github.com/golang/mock v1.5.0
 	github.com/klauspost/reedsolomon v1.9.13
 	github.com/labstack/echo/v4 v4.6.1
 	github.com/nats-io/nats-server/v2 v2.4.0 // indirect

@@ -1,16 +1,16 @@
 .PHONY: all build clean default help init test format check-license
 default: help
 
-build: build-api-server build-storage-server
+build: build-api-server build-storage-server build-oshell
 
 build-api-server:
-	go build -o build/api-server cmd/api_server/api_server.go
+	go build -o target/api-server cmd/api_server/api_server.go
 
 build-storage-server:
-	go build -o build/storage-server cmd/storage_server/storage_server.go
+	go build -o target/storage-server cmd/storage_server/storage_server.go
 
 build-oshell:
-	go build -o build/oshell cmd/oshell/main.go
+	go build -o target/oshell cmd/oshell/main.go
 
 mockgen:
 	mockgen --build_flags=--mod=mod -self_package=github.com/joeyscat/object-storage-go/internal/api_server/store -destination internal/api_server/store/mock_store.go -package store github.com/joeyscat/object-storage-go/internal/api_server/store Factory,BucketStore,ObjectStore
@@ -20,7 +20,7 @@ lint:
 	golangci-lint run
 
 clean:
-	rm build/* -rf
+	rm target/* -rf
 
 # test:                   ## Run all tests.
 # 	go test -v -timeout 30s ./...
