@@ -3,7 +3,7 @@ package core
 import (
 	"net/http"
 
-	"github.com/joeyscat/object-storage-go/internal/api_server/errcode"
+	"github.com/joeyscat/object-storage-go/internal/pkg/errcode"
 	"github.com/labstack/echo/v4"
 )
 
@@ -26,8 +26,8 @@ func ToResponseList(ctx echo.Context, list interface{}, totalRows int) error {
 }
 
 func ToErrorResponse(ctx echo.Context, err *errcode.Error) error {
-	response := map[string]interface{}{"code": err.Code(), "msg": err.Msg()}
-	details := err.Details()
+	response := map[string]interface{}{"code": err.Code, "msg": err.Msg}
+	details := err.Details
 	if len(details) > 0 {
 		response["details"] = details
 	}

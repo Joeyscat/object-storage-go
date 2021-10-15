@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/joeyscat/object-storage-go/internal/pkg/object"
 	"github.com/joeyscat/object-storage-go/pkg/log"
 	"github.com/joeyscat/object-storage-go/pkg/mongo"
 	"github.com/joeyscat/object-storage-go/pkg/utils"
@@ -31,7 +32,7 @@ func verify(hash string) {
 		log.Warn(err.Error())
 		return
 	}
-	stream, err := objects.GetStream(hash, uint64(size))
+	stream, err := object.GetStream(hash, uint64(size))
 	if err != nil {
 		log.Warn(err.Error())
 		return
