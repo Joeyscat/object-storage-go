@@ -26,15 +26,15 @@ func GetStream(hash string, size uint64) (*rs.RSGetStream, error) {
 	return rs.NewRSGetStream(locateInfo, dataServers, hash, size)
 }
 
-func Locate(name string) map[int]string {
-	log.Debug("Locate", zap.String("name", name))
+func Locate(hash string) map[int]string {
+	log.Debug("Locate", zap.String("hash", hash))
 	nc, err := natsmq.GetSingletonNats(os.Getenv("NATS_URL"), nats.Name("object_locate_pub"))
 	if err != nil {
 		log.Error("GetSingletonNats", zap.Any("error", err))
 		return nil
 	}
 
-	rs, err := natsmq.PublichAndWaitForReply(nc, os.Getenv("NATS_SUBJECT_OBJ_LOCATE"), []byte(name), time.Second, rs.AllShards)
+	rs, err := natsmq.PublichAndWaitForReply(nc, os.Getenv("NATS_SUBJECT_OBJ_LOCATE"), []byte(hash), time.Second, rs.AllShards)
 	if err != nil {
 		log.Error("PublichAndWaitForReply", zap.Any("error", err))
 		return nil
@@ -49,7 +49,9 @@ func Locate(name string) map[int]string {
 			continue
 		}
 		locateInfo[info.Id] = info.Addr
+		log.Debug("Locator receive", zap.String("msg", info.Addr))
 	}
+	log.Warn("Locator receive no msg")
 	return locateInfo
 }
 

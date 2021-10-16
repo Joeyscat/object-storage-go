@@ -30,16 +30,23 @@ func installController(e *echo.Echo) {
 			objectController := ctlv1.NewObjectController(nil)
 
 			objectv1.GET("/:name", objectController.GetObject)
-			objectv1.PUT("/", objectController.PutObject)
+			objectv1.PUT("/:name", objectController.PutObject)
 			objectv1.POST("/:name", objectController.CreateObject)
 			objectv1.DELETE("/:name", objectController.DeleteObject, authM)
 
-			objectv1.HEAD("/temp/:token", objectController.HeadTempObject)
-			objectv1.PUT("/temp/:token", objectController.PutTempObject)
-
-			objectv1.GET("/locate/:name", objectController.GetObjectLocate)
+			// TODO not for user
+			objectv1.GET("/locate/:name", objectController.GetObjectLocate, authM)
 
 			objectv1.HEAD("/version/:name", objectController.HeadObjectVersion)
+		}
+
+		// temp
+		tempv1 := v1.Group("/temp")
+		{
+			tempController := ctlv1.NewTempController()
+
+			tempv1.HEAD("/:token", tempController.HeadTempObject)
+			tempv1.PUT("/:token", tempController.PutTempObject)
 		}
 
 		// bucket

@@ -1,7 +1,7 @@
 # start up processes for test
 
 # export MONGODB_URI=mongodb://object_storage_rw:123456@192.168.50.186:27017/object_storage
-export MONGODB_URI=mongodb://object_storage_rw:5QXj_hVQ7_5r5oOr1KVXjGam00qVgCZ35d5BmTxTYDpemN4d7o7SxCp1euiGtCR3@mongo1.me.io:20001,mongo2.me.io:20001,mongo3.me.io:20001/object_storage
+export MONGODB_URI=mongodb://object_storage_rw:5QXj_hVQ7_5r5oOr1KVXjGam00qVgCZ35d5BmTxTYDpemN4d7o7SxCp1euiGtCR3@127.0.0.1:27017/object_storage
 export NATS_URL=nats://nats.me.io:4222
 export NATS_SUBJECT_STORAG_HEARTBEAT=storage_heartbeat
 export NATS_SUBJECT_OBJ_LOCATE=object_locate
@@ -28,13 +28,14 @@ sleep 5s
 
 #echo -n "this object will have only 1 instance" | openssl dgst -sha256 -binary | base64
 #aWKQ2BipX94sb+h3xdTbWYAu1yzjn5vyFG2SOwUQIXY=
+echo "========================TEST PUT========================"
+curl -v localhost:9001/v1/objects/test4_1 -XPUT -d"this object will have only 1 instance" -H "Digest: SHA-256=aWKQ2BipX94sb+h3xdTbWYAu1yzjn5vyFG2SOwUQIXY="
 
-curl -v localhost:9001/objects/test4_1 -XPUT -d"this object will have only 1 instance" -H "Digest: SHA-256=aWKQ2BipX94sb+h3xdTbWYAu1yzjn5vyFG2SOwUQIXY="
+echo "========================TEST LOCATE========================"
+curl localhost:9001/v1/objects/locate/aWKQ2BipX94sb+h3xdTbWYAu1yzjn5vyFG2SOwUQIXY=
 
-curl localhost:9001/locate/test4_1
-
-echo
-curl localhost:9002/objects/test
+echo "========================TEST GET========================"
+curl localhost:9002/v1/objects/test
 echo
 
 # =============================================================================

@@ -30,3 +30,5 @@ init-test-env:
 
 debug: init-test-env
 	bash scripts/test.sh
+stop:
+	bash scripts/stop.sh

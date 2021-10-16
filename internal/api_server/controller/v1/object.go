@@ -57,7 +57,7 @@ func (o *ObjectController) PutObject(c echo.Context) error {
 		return c.JSON(code, nil)
 	}
 
-	name := strings.Split(r.URL.EscapedPath(), "/")[2]
+	name := c.Param("name")
 	latestVersion, err := mongo.SearchLatestVersion(name)
 	if err != nil {
 		log.Warn(fmt.Sprintf("SearchLatestVersion err: %v", err))
@@ -78,9 +78,7 @@ func (o *ObjectController) PutObject(c echo.Context) error {
 
 func (o *ObjectController) CreateObject(c echo.Context) error {
 	r := c.Request()
-
-	// name := c.Param("name")
-	name := strings.Split(r.URL.EscapedPath(), "/")[2]
+	name := c.Param("name")
 
 	size, err := strconv.ParseInt(r.Header.Get("size"), 0, 64)
 	if err != nil {
@@ -134,7 +132,7 @@ func (o *ObjectController) GetObject(c echo.Context) error {
 	r := c.Request()
 	w := c.Response()
 
-	name := strings.Split(r.URL.EscapedPath(), "/")[2]
+	name := c.Param("name")
 	versionId := r.URL.Query()["version"]
 	version := 0
 	var err error
@@ -200,7 +198,7 @@ func (o *ObjectController) GetObject(c echo.Context) error {
 }
 
 func (o *ObjectController) DeleteObject(c echo.Context) error {
-	name := strings.Split(c.Request().URL.EscapedPath(), "/")[2]
+	name := c.Param("name")
 	version, err := mongo.SearchLatestVersion(name)
 	if err != nil {
 		log.Warn("SearchLatestVersion error", zap.String("error", err.Error()))
@@ -307,8 +305,9 @@ func (o *ObjectController) PutTempObject(c echo.Context) error {
 
 func (o *ObjectController) GetObjectLocate(c echo.Context) error {
 	w := c.Response()
+	hash := c.Param("hash")
 
-	info := object.Locate(strings.Split(c.Request().URL.EscapedPath(), "/")[2])
+	info := object.Locate(hash)
 	if len(info) == 0 {
 		return c.JSON(http.StatusNotFound, nil)
 	}
@@ -322,12 +321,11 @@ func (o *ObjectController) GetObjectLocate(c echo.Context) error {
 }
 
 func (o *ObjectController) HeadObjectVersion(c echo.Context) error {
-	r := c.Request()
 	w := c.Response()
+	name := c.Param("name")
 
 	from := 0
 	size := 1000
-	name := strings.Split(r.URL.EscapedPath(), "/")[2]
 	for {
 		metas, err := mongo.SearchAllVersions(name, int64(from), int64(size))
 		if err != nil {

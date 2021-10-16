@@ -9,13 +9,17 @@ BASE_DIR=~/env/objects
 LOG_DIR=~/code/go/object-storage-go/logs
 
 if [ ! -d "$BASE_DIR" ]; then
-    echo "x"
+    mkdir -p $BASE_DIR
 else
-    rm -r $BASE_DIR
+    echo "clean base dir"
+    rm -r $BASE_DIR/*
 fi
 
 if [ ! -d "$LOG_DIR" ]; then
     mkdir -p $LOG_DIR
+else
+    echo "clean log dir"
+    rm -r $LOG_DIR/*
 fi
 
 
