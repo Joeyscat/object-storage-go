@@ -38,6 +38,16 @@ func installController(e *echo.Echo) {
 			objectv1.GET("/locate/:name", objectController.GetObjectLocate, authM)
 
 			objectv1.HEAD("/version/:name", objectController.HeadObjectVersion)
+
+			// Upload
+			{
+				objectv1.PUT("/:objectName/upload", objectController.PutObject)
+			}
+
+			// Multipart Upload
+			{
+				objectv1.PUT("/:objectName/upload/uploadId", objectController.PutObject)
+			}
 		}
 
 		// temp
@@ -50,10 +60,12 @@ func installController(e *echo.Echo) {
 		}
 
 		// bucket
-		bucketv1 := v1.Group("/buckets")
+		bucketv1 := v1.Group("/buckets", authM)
 		{
-			bucketController := ctlv1.NewBocketController(nil)
-			bucketv1.GET("/:name", bucketController.GetBucket)
+			bucketController := ctlv1.NewBucketController(nil)
+			bucketv1.GET("/", bucketController.GetBucketList)
+			bucketv1.POST("/:bucketName", bucketController.CreateBucket)
+			bucketv1.DELETE("/:bucketName", bucketController.DeleteBucket)
 		}
 	}
 }
