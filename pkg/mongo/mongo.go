@@ -17,9 +17,9 @@ import (
 
 var cli *qmgo.QmgoClient
 
-func init() {
-	InitCli()
-}
+// func init() {
+// 	InitCli()
+// }
 
 func InitCli() {
 	ctx := context.Background()

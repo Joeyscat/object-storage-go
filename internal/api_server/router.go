@@ -1,12 +1,15 @@
 package api_server
 
 import (
+	"context"
 	"net/http"
 	"os"
 
 	ctlv1 "github.com/joeyscat/object-storage-go/internal/api_server/controller/v1"
+	"github.com/joeyscat/object-storage-go/internal/api_server/store/mongo"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func InitRouter() {
@@ -18,6 +21,11 @@ func InitRouter() {
 	e.Logger.Fatal(e.Start(os.Getenv("LISTEN_ADDRESS")))
 }
 func installController(e *echo.Echo) {
+	store, err := mongo.GetMongoFactoryOr(context.Background(), options.Client().ApplyURI(""))
+	if err != nil {
+		panic(err)
+	}
+
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
@@ -27,7 +35,7 @@ func installController(e *echo.Echo) {
 		// object
 		objectv1 := v1.Group("/objects")
 		{
-			objectController := ctlv1.NewObjectController(nil)
+			objectController := ctlv1.NewObjectController(store)
 
 			objectv1.GET("/:name", objectController.GetObject)
 			objectv1.PUT("/:name", objectController.PutObject)
@@ -60,7 +68,7 @@ func installController(e *echo.Echo) {
 		}
 
 		// bucket
-		bucketv1 := v1.Group("/buckets", authM)
+		bucketv1 := v1.Group("/buckets")
 		{
 			bucketController := ctlv1.NewBucketController(nil)
 			bucketv1.GET("/", bucketController.GetBucketList)

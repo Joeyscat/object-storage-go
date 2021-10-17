@@ -3,6 +3,8 @@ module github.com/joeyscat/object-storage-go
 go 1.17
 
 require (
+	github.com/golang-jwt/jwt v3.2.2+incompatible
+	github.com/golang/mock v1.5.0
 	github.com/klauspost/reedsolomon v1.9.13
 	github.com/labstack/echo/v4 v4.6.1
 	github.com/nats-io/nats-server/v2 v2.4.0 // indirect
@@ -20,7 +22,6 @@ require (
 	github.com/go-playground/universal-translator v0.18.0 // indirect
 	github.com/go-playground/validator/v10 v10.9.0 // indirect
 	github.com/go-stack/stack v1.8.1 // indirect
-	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/google/go-cmp v0.5.6 // indirect
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
