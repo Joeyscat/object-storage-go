@@ -57,7 +57,7 @@ func TestBocketController_GetBucketList(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			b := &BocketController{
+			b := &BucketController{
 				srv: tt.fields.srv,
 			}
 			if err := b.GetBucketList(tt.args.c); (err != nil) != tt.wantErr {
@@ -110,7 +110,7 @@ func TestBocketController_CreateBucket(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			b := &BocketController{
+			b := &BucketController{
 				srv: tt.fields.srv,
 			}
 			if err := b.CreateBucket(tt.args.c); (err != nil) != tt.wantErr {
@@ -161,7 +161,7 @@ func TestBocketController_DeleteBucket(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			b := &BocketController{
+			b := &BucketController{
 				srv: tt.fields.srv,
 			}
 			if err := b.DeleteBucket(tt.args.c); (err != nil) != tt.wantErr {

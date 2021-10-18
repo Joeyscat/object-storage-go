@@ -11,17 +11,17 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type BocketController struct {
+type BucketController struct {
 	srv srvv1.Service
 }
 
-func NewBucketController(store store.Factory) *BocketController {
-	return &BocketController{
+func NewBucketController(store store.Factory) *BucketController {
+	return &BucketController{
 		srv: srvv1.NewService(store),
 	}
 }
 
-func (b *BocketController) GetBucketList(c echo.Context) error {
+func (b *BucketController) GetBucketList(c echo.Context) error {
 	u, err := auth.GetUser(c)
 	if err != nil {
 		return auth.UserInfoNotFoundInRequest(c)
@@ -35,7 +35,7 @@ func (b *BocketController) GetBucketList(c echo.Context) error {
 	return c.JSON(http.StatusOK, bs)
 }
 
-func (b *BocketController) CreateBucket(c echo.Context) error {
+func (b *BucketController) CreateBucket(c echo.Context) error {
 	u, err := auth.GetUser(c)
 	if err != nil {
 		return auth.UserInfoNotFoundInRequest(c)
@@ -57,7 +57,7 @@ func (b *BocketController) CreateBucket(c echo.Context) error {
 	return c.JSON(http.StatusCreated, nil)
 }
 
-func (b *BocketController) DeleteBucket(c echo.Context) error {
+func (b *BucketController) DeleteBucket(c echo.Context) error {
 	u, err := auth.GetUser(c)
 	if err != nil {
 		return auth.UserInfoNotFoundInRequest(c)
