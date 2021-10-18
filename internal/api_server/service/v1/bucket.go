@@ -39,7 +39,7 @@ func (s *bucketService) Create(ctx context.Context, bucket *v1.Bucket) error {
 
 func (s *bucketService) Delete(ctx context.Context, bucketName string, userID v1.UserID) error {
 	if userID == "" {
-		return errors.New("bucket.UserID is 0")
+		return errors.New("bucket.UserID is empty")
 	}
 	if strings.TrimSpace(bucketName) == "" {
 		return errors.New("bucket name if empty")

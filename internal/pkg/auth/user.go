@@ -17,7 +17,7 @@ const (
 )
 
 type User struct {
-	UserID   uint64
+	UserID   string
 	UserName string
 }
 
@@ -35,7 +35,7 @@ func GetUser(c echo.Context) (*User, error) {
 
 	// check user fields
 	log.Debug("GetUser", zap.Any("user", u))
-	if u.UserID == 0 || u.UserName == "" {
+	if u.UserID == "" || u.UserName == "" {
 		return nil, errors.New("parse user from header failed")
 	}
 

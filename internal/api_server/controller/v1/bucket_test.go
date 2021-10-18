@@ -16,7 +16,7 @@ import (
 
 var (
 	expectBucketList = []*v1.Bucket{}
-	userForAuth      = auth.User{UserID: 1, UserName: "JoJo"}
+	userForAuth      = auth.User{UserID: "xx", UserName: "JoJo"}
 )
 
 func TestBocketController_GetBucketList(t *testing.T) {

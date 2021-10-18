@@ -93,19 +93,19 @@ func Test_bucketService_Delete(t *testing.T) {
 		{
 			"OK",
 			fields{mockStore},
-			args{context.Background(), "bucket01", ""},
+			args{context.Background(), "bucket01", "xx"},
 			false,
 		},
 		{
 			"bucket filed empty error",
 			fields{mockStore},
-			args{context.Background(), "", "1"},
+			args{context.Background(), "", "xx"},
 			true,
 		},
 		{
 			"bucket filed empty error",
 			fields{mockStore},
-			args{context.Background(), "bucket01", "0"},
+			args{context.Background(), "bucket01", ""},
 			true,
 		},
 	}
